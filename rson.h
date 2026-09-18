@@ -28,6 +28,8 @@ private slots:
     void on_action_About_RSON_triggered();
     void on_actionE_xit_triggered();
 
+    void on_controlTypeCIVRadioButton_toggled(bool checked);
+
 private:
     Ui::RSON *ui;
     QString loadedFilename;

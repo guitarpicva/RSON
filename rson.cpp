@@ -24,7 +24,7 @@ RSON::RSON(QWidget *parent, const QString radioFilename)
     statusBar()->showMessage("Loaded JSON file: NONE");
     ui->tabWidget->setCurrentIndex(0);
     loadSerialPortList();
-    qDebug()<<"loadedFilename:"<<loadedFilename;
+    // qDebug()<<"loadedFilename:"<<loadedFilename;
     if(!loadedFilename.isEmpty()) {
         loadDataFromFile(loadedFilename);
     }
@@ -69,7 +69,6 @@ void RSON::on_pttMethodCATRadioButton_toggled(bool checked)
     }
 }
 
-
 void RSON::on_refreshSerialButton_clicked()
 {
     // qDebug()<<"refresh the list based on connection type";
@@ -85,66 +84,79 @@ void RSON::on_refreshSerialButton_clicked()
     }
 }
 
-
-// void RSON::on_controlTypeCIVRadioButton_toggled(bool checked)
-// {
-//     // CI-V radios need to specify address and possible data mode type
-//     // for radios like IC-F8101 and IC-7610 and others.
-//     // I think i'll use this on the Commands tab to enable the
-//     // optional DATA mode/filter fields
-// }
-
 void RSON::on_action_Save_to_JSON_triggered() {
     QJsonDocument jd;
     QJsonObject jo;
     jo.insert("radioName", QJsonValue(ui->radioNameLineEdit->text().trimmed()));
-    QString tmp = ui->controlTypeCIVRadioButton->isChecked()?"BINARY":"ASCII";
-    jo.insert("controlType", QJsonValue(tmp));
-    tmp.clear();
-    tmp = ui->pttMethodTCPRadioButton->isChecked()?"TCP":"SERIAL";
+    // QString tmp = ui->controlTypeCIVRadioButton->isChecked()?"BINARY":"ASCII";
+    // jo.insert("controlType", QJsonValue(tmp));
+    QString tmp = ui->pttMethodTCPRadioButton->isChecked()?"TCP":"SERIAL";
     jo.insert("connectionMethod", QJsonValue(tmp));
-    jo.insert("radioAddress", QJsonValue(ui->radioAddressComboBox->currentText().trimmed()));
+    jo.insert("radioAddress", QJsonValue(ui->radioAddressComboBox->currentText().trimmed().toUpper()));
     jo.insert("tcpPortNumber", QJsonValue(ui->tcpPortSpinBox->value()));
-    jo.insert("initialSetup", QJsonValue(ui->setupLineEdit->text().trimmed()));
-    jo.insert("pttOn", QJsonValue(ui->pttOnLineEdit->text().trimmed()));
-    jo.insert("pttOff", QJsonValue(ui->pttOffLineEdit->text().trimmed()));
-    jo.insert("pttData", QJsonValue(ui->pttDataLineEdit->text().trimmed()));
-    jo.insert("autoTune", QJsonValue(ui->autoTuneLineEdit->text().trimmed()));
+    jo.insert("portTimeout", QJsonValue(ui->portTimeoutSpinBox->value()));
+    jo.insert("commandTimeout", QJsonValue(ui->commandTimeoutSpinBox->value()));
+    jo.insert("initialSetup", QJsonValue(ui->setupLineEdit->text().trimmed().toUpper()));
+    jo.insert("pttOn", QJsonValue(ui->pttOnLineEdit->text().trimmed().toUpper()));
+    jo.insert("pttOff", QJsonValue(ui->pttOffLineEdit->text().trimmed().toUpper()));
+    jo.insert("pttData", QJsonValue(ui->pttDataLineEdit->text().trimmed().toUpper()));
+    jo.insert("autoTune", QJsonValue(ui->autoTuneLineEdit->text().trimmed().toUpper()));
     jo.insert("txTail", QJsonValue(ui->txTailSpinBox->value()));
-    // the serial details object
-    QJsonObject joserial;
-    joserial.insert("serialBaudRate",QJsonValue(ui->serialBaudComboBox->currentText().toInt()));
-    joserial.insert("serialParams",QJsonValue(ui->serialParamsComboBox->currentText()));
+    // the serial details
+    jo.insert("serialBaudRate",QJsonValue(ui->serialBaudComboBox->currentText().toInt()));
+    jo.insert("serialParams",QJsonValue(ui->serialParamsComboBox->currentText().toUpper()));
     tmp = ui->serialFlowControlComboBox->currentText().trimmed();
-    joserial.insert("serialFlowControl",QJsonValue(tmp.isEmpty()?"No Flow Control" : tmp));
-    // add serial details to root object
-    jo.insert("serialDetails", joserial);
+    jo.insert("serialFlowControl",QJsonValue(tmp.isEmpty()?"No Flow Control" : tmp));
     // the list of standard modes "modeList"
     QJsonObject jomodes;
-    jomodes.insert("USB", QJsonValue(ui->usbModeLineEdit->text().trimmed()));
-    jomodes.insert("LSB", QJsonValue(ui->lsbModeLineEdit->text().trimmed()));
-    jomodes.insert("CW", QJsonValue(ui->cwModeLineEdit->text().trimmed()));
-    jomodes.insert("AM", QJsonValue(ui->amModeLineEdit->text().trimmed()));
-    jomodes.insert("RTTY", QJsonValue(ui->rttyLineEdit->text().trimmed()));
-    jomodes.insert("DATA1", QJsonValue(ui->data1LineEdit->text().trimmed()));
-    jomodes.insert("DATA2", QJsonValue(ui->data2LineEdit->text().trimmed()));
-    jomodes.insert("DATA3", QJsonValue(ui->data3LineEdit->text().trimmed()));
-    // now the user modes tab modes
-
+    jomodes.insert("USB", QJsonValue(ui->usbModeLineEdit->text().trimmed().toUpper()));
+    jomodes.insert("LSB", QJsonValue(ui->lsbModeLineEdit->text().trimmed().toUpper()));
+    jomodes.insert("CW", QJsonValue(ui->cwModeLineEdit->text().trimmed().toUpper()));
+    jomodes.insert("AM", QJsonValue(ui->amModeLineEdit->text().trimmed().toUpper()));
+    jomodes.insert("RTTY", QJsonValue(ui->rttyLineEdit->text().trimmed().toUpper()));
+    jomodes.insert("DATA1", QJsonValue(ui->data1LineEdit->text().trimmed().toUpper()));
+    jomodes.insert("DATA2", QJsonValue(ui->data2LineEdit->text().trimmed().toUpper()));
+    jomodes.insert("DATA3", QJsonValue(ui->data3LineEdit->text().trimmed().toUpper()));
     // add the mode list to the main object
     jo.insert("modeList", jomodes);
+    // TODO: now the user modes tab modes
+    // END USER MODES LIST
     // frequency control values
     QJsonObject jofreq;
-    tmp = ui->freqDigitTypeCIVRadioButton->isChecked() ? "CI-V" : ui->freqDigitTypeCATRadioButton->isChecked() ? "NORMAL" : "BCD";
+    tmp = ui->freqDigitTypeCIVRadioButton->isChecked() ? "CI-V" : ui->freqDigitTypeCATRadioButton->isChecked() ? "CAT" : "BCD";
+    qDebug()<<"freq order:"<<tmp;
     jofreq.insert("order", QJsonValue(tmp));
-    jofreq.insert("numDigits", QJsonValue(ui->freqDigitsSpinBox->value()));
+    int itmp = ui->freqDigitsSpinBox->value();
+    if((itmp % 2) > 0) {
+        bool keep = QMessageBox::question(this, "Odd Number of Digits?", "You have specified an odd number of frequency digits.\n\nIs this correct?") == QMessageBox::Yes;
+        if (keep) { jofreq.insert("numDigits", QJsonValue(itmp)); }
+        else { ui->freqDigitsSpinBox->setFocus(); return; };
+    }
+
     jofreq.insert("prefixA", QJsonValue(ui->freqPrefixALineEdit->text().trimmed().toUpper()));
     tmp = ui->freqPrefixBLineEdit->text().trimmed().toUpper();
     // set the B value to the A value if empty
     if(tmp.isEmpty()) { tmp = ui->freqPrefixALineEdit->text().trimmed().toUpper(); }
     jofreq.insert("prefixB", QJsonValue(tmp));
+    jofreq.insert("numDigits", QJsonValue(ui->freqDigitsSpinBox->value()).toInt(8));
+    tmp = ui->freqDigitTypeCATRadioButton->isChecked()?"CAT":ui->freqDigitTypeCIVRadioButton->isChecked()?"CI-V":"BCD";
+    qDebug()<<"save to JSON order:"<<tmp;
+    jofreq.insert("order", QJsonValue(tmp));
     jofreq.insert("suffix", ui->freqSuffixLineEdit->text().trimmed().toUpper());
     jo.insert("frequencyControl", jofreq);
+    // build and add query command list
+    QJsonObject joquery;
+    joquery.insert("vfoAFreq", QJsonValue(ui->vfoAQueryLineEdit->text().trimmed().toUpper()));
+    joquery.insert("vfoAFreqResponse", QJsonValue(ui->vfoAFreqResponseLineEdit->text().trimmed().toUpper()));
+    joquery.insert("vfoBFreq", QJsonValue(ui->vfoBQueryLineEdit->text().trimmed().toUpper()));
+    joquery.insert("vfoBFreqResponse", QJsonValue(ui->vfoBFreqResponseLineEdit->text().trimmed().toUpper()));
+    joquery.insert("vfo", QJsonValue(ui->vfoActiveQueryLineEdit->text().trimmed().toUpper()));
+    joquery.insert("vfoAResponse", QJsonValue(ui->vfoAQueryResponseLineEdit->text().trimmed().toUpper()));
+    joquery.insert("vfoBResponse", QJsonValue(ui->vfoBQueryResponseLineEdit->text().trimmed().toUpper()));
+    joquery.insert("mode", QJsonValue(ui->currModeQueryLineEdit->text().trimmed().toUpper()));
+    joquery.insert("modeResponsePrefix", QJsonValue(ui->currModeResponseLineEdit->text().trimmed().toUpper()));
+    // add query commands to the root object
+    jo.insert("queryCommands", joquery);
     // add the root object to the document
     jd.setObject(jo);
     // convert to JSON text
@@ -157,6 +169,7 @@ void RSON::on_action_Save_to_JSON_triggered() {
         out.write(json);
     }
     out.commit();
+    loadDataFromFile(fname);
 }
 
 void RSON::on_action_Import_JSON_triggered() {
@@ -173,46 +186,35 @@ void RSON::loadDataFromFile(const QString fn) {
         in.close();
     }
     loadedFilename = fn;
-    statusBar()->showMessage("File Loaded: " % fn);
+    statusBar()->showMessage("File Loaded: " % fn.split("/").last());
     QJsonDocument jd = QJsonDocument::fromJson(json);
     if(jd.isObject()) {
         QJsonObject jo = jd.object();
         // now we can walk the object to load the UI
         // radio tab
         ui->radioNameLineEdit->setText(jo.value("radioName").toString());
-        ui->controlTypeCIVRadioButton->setChecked(jo.value("controlType").toString() == "BINARY");
+//        ui->controlTypeCIVRadioButton->setChecked(jo.value("controlType").toString() == "BINARY");
         ui->pttMethodCATRadioButton->setChecked(jo.value("pttMethod").toString() == "CAT");
         ui->autoTuneLineEdit->setText(jo.value("autoTune").toString());
         ui->radioAddressComboBox->setCurrentText(jo.value("radioAddress").toString());
-        QJsonObject jtmp = jo.value("serialDetails").toObject();
-        int itmp = jtmp.value("serialBaudRate").toInt();
+        int itmp = jo.value("serialBaudRate").toInt();
         ui->serialBaudComboBox->setCurrentText(QString::number(itmp));
-        ui->serialParamsComboBox->setCurrentText(jtmp.value("serialParams").toString());
-        ui->serialFlowControlComboBox->setCurrentText(jtmp.value("serialFlowControl").toString());
+        ui->serialParamsComboBox->setCurrentText(jo.value("serialParams").toString());
+        ui->serialFlowControlComboBox->setCurrentText(jo.value("serialFlowControl").toString());
         ui->tcpPortSpinBox->setValue(jo.value("tcpPortNumber").toInt());
+        ui->portTimeoutSpinBox->setValue(jo.value("portTimeout").toInt());
+        ui->commandTimeoutSpinBox->setValue(jo.value("commandTimeout").toInt());
         // setup tab
         QString stmp = jo.value("initialSetup").toString().trimmed();
         ui->setupLineEdit->setText(stmp);
-        if(!stmp.isEmpty()) {
-            ui->setupGroupBox->setChecked(true);
-        }
-        else {
-            ui->setupGroupBox->setChecked(true);
-        }
         ui->pttOnLineEdit->setText(jo.value("pttOn").toString());
         ui->pttOffLineEdit->setText(jo.value("pttOff").toString());
         stmp = jo.value("pttData").toString().trimmed();
         ui->pttDataLineEdit->setText(stmp);
-        if(!stmp.isEmpty()) {
-            ui->pttDataGroupBox->setChecked(true);
-        }
-        else {
-            ui->pttDataGroupBox->setChecked(false);
-        }
         itmp = jo.value("txTail").toInt();
         ui->txTailSpinBox->setValue(itmp > -1 ? itmp : 20);
         // modes tab
-        jtmp = jo.value("modeList").toObject();
+        QJsonObject jtmp = jo.value("modeList").toObject();
         QStringList keys = jtmp.keys();
         foreach(const QString key, keys) {
             if(key == "USB") {
@@ -242,18 +244,40 @@ void RSON::loadDataFromFile(const QString fn) {
             // OTHER user created modes will not be displayed
         }
         jtmp = jo.value("frequencyControl").toObject();
-        ui->freqDigitsSpinBox->setValue(jtmp.value("numDigits").toInt());
+        ui->freqDigitsSpinBox->setValue(jtmp.value("numDigits").toInt(8));
         ui->freqPrefixALineEdit->setText(jtmp.value("prefixA").toString());
         ui->freqPrefixBLineEdit->setText(jtmp.value("prefixB").toString());
         ui->freqSuffixLineEdit->setText(jtmp.value("suffix").toString());
+        qDebug()<<"loadDataFromFile order:"<<jtmp.value("order").toString();
         if(jtmp.value("order").toString() == "CI-V") {
             ui->freqDigitTypeCIVRadioButton->setChecked(true);
         }
-        else if(jtmp.value("order").toString() == "NORMAL") {
+        else if(jtmp.value("order").toString() == "CAT") {
             ui->freqDigitTypeCATRadioButton->setChecked(true);
         }
         else {
             ui->freqDigitTypeBCDRadioButton->setChecked(true);
+        }
+        // load the query command list
+        jtmp = jo.value("queryCommands").toObject();
+        if(!jtmp.isEmpty()) {
+            // next two are for frequency queries
+            ui->vfoAQueryLineEdit->setText(jtmp.value("vfoAFreq").toString());
+            ui->vfoBQueryLineEdit->setText(jtmp.value("vfoBFreq").toString());
+            // two possible responses from radio for freq queries
+            ui->vfoAFreqResponseLineEdit->setText(jtmp.value("vfoAFreqResponse").toString());
+            ui->vfoBFreqResponseLineEdit->setText(jtmp.value("vfoBFreqResponse").toString());
+            // which vfo is active?
+            ui->vfoActiveQueryLineEdit->setText(jtmp.value("vfo").toString());
+            // two possible responses from radio
+            ui->vfoAQueryResponseLineEdit->setText(jtmp.value("vfoAResponse").toString());
+            ui->vfoBQueryResponseLineEdit->setText(jtmp.value("vfoBResponse").toString());
+            // query the current mode, which is matched to the modeList value to
+            // reply with the mode name.
+            ui->currModeQueryLineEdit->setText(jtmp.value("mode").toString());
+            ui->currModeResponseLineEdit->setText(jtmp.value("modeResponsePrefix").toString());
+            // ui->pttStateQueryLineEdit->setText(jtmp.value("ptt").toString());
+            // ui->splitStateQueryLineEdit->setText(jtmp.value("split").toString());
         }
     }
 }
@@ -283,22 +307,35 @@ void RSON::on_action_Report_Format_triggered()
         out.append("AutoTune:" % jo.value("autoTune").toString() % CRLF);
         out.append("Radio Address: " % jo.value("radioAddress").toString() % CRLF);
         out.append("--- Serial Details ---" % CRLF);
-        QJsonObject joser = jo.value("serialDetails").toObject();
-        out.append("Baud Rate: " % QString::number(joser.value("serialBaudRate").toInt()) % CRLF);
-        out.append("Serial Params: " % joser.value("serialParams").toString() % CRLF);
-        out.append("Flow Control: " % joser.value("serialFlowControl").toString() % CRLF);
+        out.append("Baud Rate: " % QString::number(jo.value("serialBaudRate").toInt()) % CRLF);
+        out.append("Serial Params: " % jo.value("serialParams").toString() % CRLF);
+        out.append("Flow Control: " % jo.value("serialFlowControl").toString() % CRLF);
         int tmp = jo.value("tcpPortNumber").toInt();
         out.append("TCP Port Number: " % (tmp>0?QString::number(tmp):"N/A") % CRLF);
+        out.append("Port Timeout: " % jo.value("portTimeout").toString() % CRLF);
+        out.append("Command Timeout: " % jo.value("commandTimeout").toString() % CRLF);
         out.append(CRLF % "Initial Setup: " % jo.value("initialSetup").toString() % CRLF);
         out.append("PTT on: " % jo.value("pttOn").toString() % CRLF);
         out.append("PTT off: " % jo.value("pttOff").toString() % CRLF);
         out.append("PTT data: " % jo.value("pttData").toString() % CRLF);
         out.append("Tx Tail: " % jo.value("txTail").toString() % CRLF);
         out.append("--- Mode List ---" % CRLF);
-        joser = jo.value("modeList").toObject();
-        QStringList keys = joser.keys();
+        QJsonObject jotmp = jo.value("modeList").toObject();
+        QStringList keys = jotmp.keys();
         foreach(const QString key, keys) {
-            out.append(key % ": " % joser.value(key).toString() % CRLF);
+            out.append(key % ": " % jotmp.value(key).toString() % CRLF);
+        }
+        out.append("--- Query Commands ---" % CRLF);
+        jotmp = jo.value("queryCommands").toObject();
+        qDebug()<<"Query Cmds JSON Object"<<jotmp;
+        if(!jotmp.isEmpty()) {
+            out.append("VFO A Freq Query: ").append(jotmp.value("vfoAFreq").toString());
+            out.append("VFO A Freq Response: ").append(jotmp.value("vfoAFreqResponse").toString());
+            out.append("VFO B Freq Query: ").append(jotmp.value("vfoBFreq").toString());
+            out.append("VFO B Freq Response: ").append(jotmp.value("vfoBFreqResponse").toString());
+            out.append("VFO A/B Query: ").append(jotmp.value("vfo").toString());
+            out.append("Mode Query: ").append(jotmp.value("mode").toString());
+            out.append("Mode Response: ").append(jotmp.value("modeResponsePrefix").toString());
         }
         // qDebug().noquote()<<"RSON Report:"<<out;
         QMessageBox::information(this, "RSON Report for " % loadedFilename, out);
@@ -312,12 +349,19 @@ void RSON::on_action_Report_Format_triggered()
 void RSON::on_action_About_RSON_triggered()
 {
     QMessageBox::information(this, "About RSON", "Burning down old radio control! :) -- FESTIVUS!\r\n\r\nRSON helps the user to create \
-a new ARCON file which is a JSON formatted file that holds all the necessary commands for most radio control activities.\r\n\r\n \
+a new ARCON file, which is in JSON format, that holds all the necessary commands for most radio control activities.\r\n\r\n \
 Copyright 2026 GrizzWorks, LLC -- All Rights Reserved");
 }
 
 void RSON::on_actionE_xit_triggered()
 {
     close();
+}
+
+void RSON::on_controlTypeCIVRadioButton_toggled(bool checked)
+{
+    if(checked) {
+        ui->freqDigitTypeCIVRadioButton->setChecked(true);
+    }
 }
 

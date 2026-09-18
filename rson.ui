@@ -50,95 +50,7 @@ QLineEdit{font-family:courier new,monospace}</string>
            <string>Radio Information</string>
           </property>
           <layout class="QGridLayout" name="gridLayout">
-           <item row="5" column="0" colspan="2">
-            <widget class="QGroupBox" name="tcpPortNumberGroupBox">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <property name="title">
-              <string>TCP Port Number</string>
-             </property>
-             <layout class="QVBoxLayout" name="verticalLayout_2">
-              <property name="leftMargin">
-               <number>3</number>
-              </property>
-              <property name="topMargin">
-               <number>3</number>
-              </property>
-              <property name="rightMargin">
-               <number>3</number>
-              </property>
-              <property name="bottomMargin">
-               <number>3</number>
-              </property>
-              <item>
-               <widget class="QSpinBox" name="tcpPortSpinBox">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="maximum">
-                 <number>65535</number>
-                </property>
-                <property name="value">
-                 <number>23</number>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
            <item row="1" column="0" colspan="2">
-            <widget class="QGroupBox" name="groupBox_2">
-             <property name="title">
-              <string>Control Type</string>
-             </property>
-             <layout class="QHBoxLayout" name="horizontalLayout_2">
-              <property name="leftMargin">
-               <number>3</number>
-              </property>
-              <property name="topMargin">
-               <number>3</number>
-              </property>
-              <property name="rightMargin">
-               <number>3</number>
-              </property>
-              <property name="bottomMargin">
-               <number>3</number>
-              </property>
-              <item>
-               <widget class="QRadioButton" name="controlTypeCIVRadioButton">
-                <property name="text">
-                 <string>BINARY (CI-V)</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QRadioButton" name="controlTypeAsciiRadioButton">
-                <property name="text">
-                 <string>ASCII</string>
-                </property>
-                <property name="checked">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
-           <item row="3" column="2">
-            <widget class="QLabel" name="label_6">
-             <property name="text">
-              <string>The address of the control connection.  Serial port name (i.e. COM4) or IPv4 address/hostname.</string>
-             </property>
-             <property name="wordWrap">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0" colspan="2">
             <widget class="QGroupBox" name="groupBox_3">
              <property name="title">
               <string>Connection Method</string>
@@ -182,7 +94,222 @@ QLineEdit{font-family:courier new,monospace}</string>
              </layout>
             </widget>
            </item>
+           <item row="6" column="0" colspan="3">
+            <widget class="QGroupBox" name="groupBox_25">
+             <property name="title">
+              <string>Timeouts</string>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_4">
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_17">
+                <property name="text">
+                 <string>Port Timeout</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QSpinBox" name="portTimeoutSpinBox">
+                <property name="suffix">
+                 <string> ms</string>
+                </property>
+                <property name="minimum">
+                 <number>10</number>
+                </property>
+                <property name="maximum">
+                 <number>250</number>
+                </property>
+                <property name="singleStep">
+                 <number>5</number>
+                </property>
+                <property name="value">
+                 <number>40</number>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="3">
+               <widget class="QSpinBox" name="commandTimeoutSpinBox">
+                <property name="suffix">
+                 <string> ms</string>
+                </property>
+                <property name="minimum">
+                 <number>20</number>
+                </property>
+                <property name="maximum">
+                 <number>500</number>
+                </property>
+                <property name="singleStep">
+                 <number>5</number>
+                </property>
+                <property name="value">
+                 <number>40</number>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="2">
+               <widget class="QLabel" name="label_18">
+                <property name="text">
+                 <string>Command Timeout</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="0" colspan="4">
+               <widget class="QLabel" name="label_19">
+                <property name="text">
+                 <string>Port Timeout is how long (ms) to wait before processing received data on the port.  Command Timeout is how much time (ms) between sending a list of commands to the device.</string>
+                </property>
+                <property name="wordWrap">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item row="0" column="3">
+            <spacer name="horizontalSpacer">
+             <property name="orientation">
+              <enum>Qt::Orientation::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>5</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="1" column="2">
+            <widget class="QLabel" name="label_4">
+             <property name="text">
+              <string>Will the connection to the radio be Serial port or TCP Socket?</string>
+             </property>
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="2">
+            <widget class="QLabel" name="label_6">
+             <property name="text">
+              <string>The address of the control connection.  Serial port name (i.e. COM4) or IPv4 address or hostname.</string>
+             </property>
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0" colspan="2">
+            <widget class="QGroupBox" name="groupBox_4">
+             <property name="title">
+              <string>Radio Name</string>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_4">
+              <property name="leftMargin">
+               <number>3</number>
+              </property>
+              <property name="topMargin">
+               <number>3</number>
+              </property>
+              <property name="rightMargin">
+               <number>3</number>
+              </property>
+              <property name="bottomMargin">
+               <number>3</number>
+              </property>
+              <item>
+               <widget class="QLineEdit" name="radioNameLineEdit">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="maxLength">
+                 <number>16</number>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_3">
+                <property name="orientation">
+                 <enum>Qt::Orientation::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <widget class="QLabel" name="label_2">
+             <property name="text">
+              <string>The name the radio will be identified by in the RSON file.</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="2">
+            <widget class="QLabel" name="label_7">
+             <property name="text">
+              <string>Serial Port connection details.</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="2">
+            <widget class="QLabel" name="label_8">
+             <property name="text">
+              <string>If connected via TCP Socket, which port number to use.</string>
+             </property>
+            </widget>
+           </item>
            <item row="4" column="0" colspan="2">
+            <widget class="QGroupBox" name="tcpPortNumberGroupBox">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="title">
+              <string>TCP Port Number</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_2">
+              <property name="leftMargin">
+               <number>3</number>
+              </property>
+              <property name="topMargin">
+               <number>3</number>
+              </property>
+              <property name="rightMargin">
+               <number>3</number>
+              </property>
+              <property name="bottomMargin">
+               <number>3</number>
+              </property>
+              <item>
+               <widget class="QSpinBox" name="tcpPortSpinBox">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximum">
+                 <number>65535</number>
+                </property>
+                <property name="value">
+                 <number>23</number>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item row="3" column="0" colspan="2">
             <widget class="QGroupBox" name="serialDetailsGroupBox">
              <property name="title">
               <string>Serial Details</string>
@@ -291,64 +418,7 @@ QLineEdit{font-family:courier new,monospace}</string>
              </layout>
             </widget>
            </item>
-           <item row="4" column="2">
-            <widget class="QLabel" name="label_7">
-             <property name="text">
-              <string>Serial Port connection details.</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="0" colspan="2">
-            <widget class="QGroupBox" name="groupBox_4">
-             <property name="title">
-              <string>Radio Name</string>
-             </property>
-             <layout class="QHBoxLayout" name="horizontalLayout_4">
-              <property name="leftMargin">
-               <number>3</number>
-              </property>
-              <property name="topMargin">
-               <number>3</number>
-              </property>
-              <property name="rightMargin">
-               <number>3</number>
-              </property>
-              <property name="bottomMargin">
-               <number>3</number>
-              </property>
-              <item>
-               <widget class="QLineEdit" name="radioNameLineEdit">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="text">
-                 <string/>
-                </property>
-                <property name="maxLength">
-                 <number>16</number>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer_3">
-                <property name="orientation">
-                 <enum>Qt::Orientation::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-             </layout>
-            </widget>
-           </item>
-           <item row="6" column="1">
+           <item row="7" column="0">
             <spacer name="verticalSpacer">
              <property name="orientation">
               <enum>Qt::Orientation::Vertical</enum>
@@ -361,24 +431,7 @@ QLineEdit{font-family:courier new,monospace}</string>
              </property>
             </spacer>
            </item>
-           <item row="0" column="2">
-            <widget class="QLabel" name="label_2">
-             <property name="text">
-              <string>The name the radio will be identified by in the program.</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="2">
-            <widget class="QLabel" name="label_4">
-             <property name="text">
-              <string>Will the connection to the radio be Serial port or TCP Socket?</string>
-             </property>
-             <property name="wordWrap">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="0" colspan="2">
+           <item row="2" column="0" colspan="2">
             <widget class="QGroupBox" name="groupBox_5">
              <property name="title">
               <string>Radio Address</string>
@@ -411,48 +464,24 @@ QLineEdit{font-family:courier new,monospace}</string>
               </item>
               <item>
                <widget class="QComboBox" name="radioAddressComboBox">
+                <property name="toolTip">
+                 <string>Serial or IPv4 Address of Radio</string>
+                </property>
                 <property name="editable">
                  <bool>true</bool>
                 </property>
                 <property name="maxCount">
                  <number>64</number>
                 </property>
+                <property name="insertPolicy">
+                 <enum>QComboBox::InsertPolicy::InsertAlphabetically</enum>
+                </property>
                 <property name="placeholderText">
-                 <string>IPv4 Address</string>
+                 <string/>
                 </property>
                </widget>
               </item>
              </layout>
-            </widget>
-           </item>
-           <item row="5" column="2">
-            <widget class="QLabel" name="label_8">
-             <property name="text">
-              <string>If connected via TCP Socket, which port number to use.</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="3">
-            <spacer name="horizontalSpacer">
-             <property name="orientation">
-              <enum>Qt::Orientation::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>5</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item row="1" column="2">
-            <widget class="QLabel" name="label_3">
-             <property name="text">
-              <string>How will this radio be accessed?  Using the ICOM CI-V method or older Yaesu BCD (BINARY) or using ASCII commands (CAT, etc.)</string>
-             </property>
-             <property name="wordWrap">
-              <bool>true</bool>
-             </property>
             </widget>
            </item>
           </layout>
@@ -470,14 +499,17 @@ QLineEdit{font-family:courier new,monospace}</string>
           <property name="title">
            <string>Command Definitions (comma separated list of full commands for each category)</string>
           </property>
+          <property name="checkable">
+           <bool>false</bool>
+          </property>
           <layout class="QVBoxLayout" name="verticalLayout_6">
            <item>
             <widget class="QGroupBox" name="setupGroupBox">
              <property name="title">
-              <string>Initial Setup Commands (optional, go to VFO, go to memory channel, etc.)</string>
+              <string>Initial Setup Commands (optional, go to VFO, set mode, set filter width, etc.)</string>
              </property>
              <property name="checkable">
-              <bool>true</bool>
+              <bool>false</bool>
              </property>
              <property name="checked">
               <bool>false</bool>
@@ -550,12 +582,54 @@ QLineEdit{font-family:courier new,monospace}</string>
             </widget>
            </item>
            <item>
+            <widget class="QGroupBox" name="groupBox_17">
+             <property name="title">
+              <string>Delay Value: Delay PTT OFF for this many milliseconds befor PTT OFF command is sent.  Default 20 ms.</string>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_17">
+              <item>
+               <widget class="QLabel" name="label_9">
+                <property name="text">
+                 <string>TxTail</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QSpinBox" name="txTailSpinBox">
+                <property name="suffix">
+                 <string> ms</string>
+                </property>
+                <property name="maximum">
+                 <number>500</number>
+                </property>
+                <property name="value">
+                 <number>20</number>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_2">
+                <property name="orientation">
+                 <enum>Qt::Orientation::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
             <widget class="QGroupBox" name="pttDataGroupBox">
              <property name="title">
               <string>PTT via the Data Port (optional, based on radio)</string>
              </property>
              <property name="checkable">
-              <bool>true</bool>
+              <bool>false</bool>
              </property>
              <property name="checked">
               <bool>false</bool>
@@ -604,48 +678,6 @@ QLineEdit{font-family:courier new,monospace}</string>
             </widget>
            </item>
            <item>
-            <widget class="QGroupBox" name="groupBox_17">
-             <property name="title">
-              <string>Delay Value: Delay PTT OFF for this many milliseconds after command is sent.  Default 20 ms.</string>
-             </property>
-             <layout class="QHBoxLayout" name="horizontalLayout_17">
-              <item>
-               <widget class="QLabel" name="label_9">
-                <property name="text">
-                 <string>TxTail</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QSpinBox" name="txTailSpinBox">
-                <property name="suffix">
-                 <string> ms</string>
-                </property>
-                <property name="maximum">
-                 <number>500</number>
-                </property>
-                <property name="value">
-                 <number>20</number>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer_2">
-                <property name="orientation">
-                 <enum>Qt::Orientation::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-             </layout>
-            </widget>
-           </item>
-           <item>
             <spacer name="verticalSpacer_2">
              <property name="orientation">
               <enum>Qt::Orientation::Vertical</enum>
@@ -657,6 +689,245 @@ QLineEdit{font-family:courier new,monospace}</string>
               </size>
              </property>
             </spacer>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="frequencyTab">
+       <attribute name="title">
+        <string>Frequency Control</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_7">
+        <item>
+         <widget class="QGroupBox" name="groupBox_18">
+          <property name="title">
+           <string>Setup Commands for VFO or Memory Channel Frequency Control</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_2">
+           <item row="2" column="1">
+            <spacer name="verticalSpacer_4">
+             <property name="orientation">
+              <enum>Qt::Orientation::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="1" column="1">
+            <widget class="QGroupBox" name="groupBox_20">
+             <property name="title">
+              <string>VFO Command Structure (Consult radio documentation to find the commands)</string>
+             </property>
+             <layout class="QFormLayout" name="formLayout">
+              <item row="0" column="0">
+               <widget class="QLabel" name="label">
+                <property name="text">
+                 <string>Command Prefix VFO A</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QLineEdit" name="freqPrefixALineEdit">
+                <property name="maxLength">
+                 <number>16</number>
+                </property>
+                <property name="placeholderText">
+                 <string>i.e. for ICOM IC-705 FEFEA4E005 or for FT-450D FA, etc.</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_13">
+                <property name="text">
+                 <string>Command Prefix VFO B</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QLineEdit" name="freqPrefixBLineEdit"/>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="label_5">
+                <property name="text">
+                 <string>Number of FrequencyDigits</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QSpinBox" name="freqDigitsSpinBox">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="toolTip">
+                 <string>Number of digits in the command sent to the radio which represent the frequency.  Typically 8 or 10, but sometimes more.</string>
+                </property>
+                <property name="minimum">
+                 <number>0</number>
+                </property>
+                <property name="maximum">
+                 <number>12</number>
+                </property>
+                <property name="value">
+                 <number>10</number>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QLabel" name="label_10">
+                <property name="text">
+                 <string>Command Suffix</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="1">
+               <widget class="QLineEdit" name="freqSuffixLineEdit">
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="placeholderText">
+                 <string>i.e. For CI-V: FD or for CAT:  ;</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="0">
+               <widget class="QLabel" name="label_11">
+                <property name="text">
+                 <string>Order of Digits</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="1">
+               <widget class="QGroupBox" name="groupBox_22">
+                <property name="toolTip">
+                 <string/>
+                </property>
+                <property name="title">
+                 <string/>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout_19">
+                 <property name="leftMargin">
+                  <number>3</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>3</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>3</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>3</number>
+                 </property>
+                 <item>
+                  <widget class="QRadioButton" name="freqDigitTypeCATRadioButton">
+                   <property name="toolTip">
+                    <string>Readable digits left to right, usually for CAT.
+</string>
+                   </property>
+                   <property name="text">
+                    <string>CAT</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QRadioButton" name="freqDigitTypeCIVRadioButton">
+                   <property name="toolTip">
+                    <string>ICOM CI-V reversed jumble of crap style</string>
+                   </property>
+                   <property name="text">
+                    <string>CI-V</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QRadioButton" name="freqDigitTypeBCDRadioButton">
+                   <property name="toolTip">
+                    <string>FT-857(D) or FT-897 era radios</string>
+                   </property>
+                   <property name="text">
+                    <string>BCD (old Yaesu)</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item row="5" column="0" colspan="2">
+               <widget class="QPlainTextEdit" name="freqHelpTextEdit">
+                <property name="readOnly">
+                 <bool>true</bool>
+                </property>
+                <property name="plainText">
+                 <string>VFO command prefix - For all radios, fill in VFO A.  CAT style radios usually have a separate command for setting VFO B, otherwise, leave it blank.
+
+Number of Frequency Digits - How many digits are required to be in the command.  Frequency is supplied in Hz, so front padding will be applied to ensure the command has this many &quot;digits&quot; of frequency information.  If no padding is required, set to zero (0).
+
+Command Suffix - The end of the command, such as &quot;FD&quot; in CI-V for ICOM, or &quot;;&quot; for CAT.  For OLD BCD type Yaesu's it will likely be &quot;01&quot; which is the command for setting the current VFO.
+
+Order of Digits - 
+&quot;NORMAL&quot; means for CAT, which is front zero padded in order of Hz.  
+&quot;CI-V&quot; builds the ridiculous ICOM frequency format
+&quot;BCD&quot; (old Yaesu) will designate normally sequenced digits, but sent in binary instead of text.</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item row="0" column="1" colspan="2">
+            <widget class="QGroupBox" name="groupBox_19">
+             <property name="title">
+              <string>Choose Frequency Control Method</string>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_18">
+              <property name="leftMargin">
+               <number>3</number>
+              </property>
+              <property name="topMargin">
+               <number>3</number>
+              </property>
+              <property name="rightMargin">
+               <number>3</number>
+              </property>
+              <property name="bottomMargin">
+               <number>3</number>
+              </property>
+              <item>
+               <widget class="QRadioButton" name="vfoRadioButton">
+                <property name="text">
+                 <string>VFO</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QRadioButton" name="memChannelRadioButton">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="text">
+                 <string>Memory Channels (someday)</string>
+                </property>
+                <property name="checked">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
            </item>
           </layout>
          </widget>
@@ -871,206 +1142,38 @@ QLineEdit{font-family:courier new,monospace}</string>
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="frequencyTab">
+      <widget class="QWidget" name="tab">
        <attribute name="title">
-        <string>Frequency Control</string>
+        <string>Query Commands</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_7">
+       <layout class="QVBoxLayout" name="verticalLayout_8">
         <item>
-         <widget class="QGroupBox" name="groupBox_18">
+         <widget class="QGroupBox" name="groupBox_24">
           <property name="title">
-           <string>Setup Commands for VFO or Memory Channel Frequency Control</string>
+           <string>Configure Commands to Query Key States (Empty command text means no command)</string>
           </property>
-          <layout class="QGridLayout" name="gridLayout_2">
-           <item row="2" column="1">
-            <spacer name="verticalSpacer_4">
-             <property name="orientation">
-              <enum>Qt::Orientation::Vertical</enum>
+          <layout class="QVBoxLayout" name="verticalLayout_9">
+           <item>
+            <widget class="QLabel" name="label_12">
+             <property name="font">
+              <font>
+               <pointsize>9</pointsize>
+              </font>
              </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>40</height>
-              </size>
+             <property name="text">
+              <string>For each query command, enter, a comma separated list of commands necessary to query each key value.</string>
              </property>
-            </spacer>
-           </item>
-           <item row="1" column="1">
-            <widget class="QGroupBox" name="groupBox_20">
-             <property name="title">
-              <string>VFO Command Structure</string>
+             <property name="wordWrap">
+              <bool>true</bool>
              </property>
-             <layout class="QFormLayout" name="formLayout">
-              <item row="0" column="0">
-               <widget class="QLabel" name="label">
-                <property name="text">
-                 <string>Command Prefix VFO A</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="1">
-               <widget class="QLineEdit" name="freqPrefixALineEdit">
-                <property name="maxLength">
-                 <number>16</number>
-                </property>
-                <property name="placeholderText">
-                 <string>i.e. for ICOM IC-705 FEFEA4E005 or for FT-450D FA, etc.</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="label_13">
-                <property name="text">
-                 <string>Command Prefix VFO B</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="1">
-               <widget class="QLineEdit" name="freqPrefixBLineEdit">
-                <property name="placeholderText">
-                 <string>Set VFO B freq for radios which can set freq independently. (else blank)</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="0">
-               <widget class="QLabel" name="label_5">
-                <property name="text">
-                 <string>Number of FrequencyDigits</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="1">
-               <widget class="QSpinBox" name="freqDigitsSpinBox">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="toolTip">
-                 <string>Number of digits in the command sent to the radio which represent the frequency.  Typically 8 or 10, but sometimes more.</string>
-                </property>
-                <property name="minimum">
-                 <number>8</number>
-                </property>
-                <property name="maximum">
-                 <number>16</number>
-                </property>
-                <property name="value">
-                 <number>10</number>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="0">
-               <widget class="QLabel" name="label_10">
-                <property name="text">
-                 <string>Command Suffix</string>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="1">
-               <widget class="QLineEdit" name="freqSuffixLineEdit">
-                <property name="text">
-                 <string/>
-                </property>
-                <property name="placeholderText">
-                 <string>i.e. For CI-V: FD or for CAT:  ;</string>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="0">
-               <widget class="QLabel" name="label_11">
-                <property name="text">
-                 <string>Order of Digits</string>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="1">
-               <widget class="QGroupBox" name="groupBox_22">
-                <property name="toolTip">
-                 <string/>
-                </property>
-                <property name="title">
-                 <string/>
-                </property>
-                <layout class="QHBoxLayout" name="horizontalLayout_19">
-                 <property name="leftMargin">
-                  <number>3</number>
-                 </property>
-                 <property name="topMargin">
-                  <number>3</number>
-                 </property>
-                 <property name="rightMargin">
-                  <number>3</number>
-                 </property>
-                 <property name="bottomMargin">
-                  <number>3</number>
-                 </property>
-                 <item>
-                  <widget class="QRadioButton" name="freqDigitTypeCATRadioButton">
-                   <property name="toolTip">
-                    <string>Readable digits left to right, usually for CAT.
-</string>
-                   </property>
-                   <property name="text">
-                    <string>NORMAL</string>
-                   </property>
-                   <property name="checked">
-                    <bool>true</bool>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QRadioButton" name="freqDigitTypeCIVRadioButton">
-                   <property name="toolTip">
-                    <string>ICOM CI-V reversed jumble of crap style</string>
-                   </property>
-                   <property name="text">
-                    <string>CI-V</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QRadioButton" name="freqDigitTypeBCDRadioButton">
-                   <property name="toolTip">
-                    <string>FT-857(D) or FT-897 era radios</string>
-                   </property>
-                   <property name="text">
-                    <string>BCD (old Yaesu)</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-              <item row="5" column="0" colspan="2">
-               <widget class="QPlainTextEdit" name="freqHelpTextEdit">
-                <property name="readOnly">
-                 <bool>true</bool>
-                </property>
-                <property name="plainText">
-                 <string>VFO command prefix - for all radios, fill in VFO A.  CAT style radios usually have a separate command for setting VFO B, otherwise, leave it blanke.
-
-Number of Frequency Digits - how many digits are required to be in the command.  Frequency is supplies in Hz, so front padding will be applied to ensure the command has this many &quot;digits&quot; of frequency information.
-
-Command Suffix - the end of the command, such as &quot;FD&quot; in CI-V for ICOM, or &quot;;&quot; for CAT.  For OLD BCD type Yaesu's it will likely be &quot;01&quot; which is the command for setting the current VFO.
-
-Order of Digits - 
-&quot;NORMAL&quot; means for CAT, which is front zero padded in order of Hz.  
-&quot;CI-V&quot; builds the ridiculous ICOM frequency format
-&quot;BCD&quot; (old Yaesu) will designate normally sequenced digits, but sent in binary instead of text.</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
             </widget>
            </item>
-           <item row="0" column="1" colspan="2">
-            <widget class="QGroupBox" name="groupBox_19">
+           <item>
+            <widget class="QGroupBox" name="vfoAQueryGroupBox">
              <property name="title">
-              <string>Choose Frequency Control Method</string>
+              <string>VFO A Freq (returns Hz value of VFO A as &quot;vfoa nnnnnnnnnn&quot;)</string>
              </property>
-             <layout class="QHBoxLayout" name="horizontalLayout_18">
+             <layout class="QHBoxLayout" name="horizontalLayout_22">
               <property name="leftMargin">
                <number>3</number>
               </property>
@@ -1084,30 +1187,235 @@ Order of Digits -
                <number>3</number>
               </property>
               <item>
-               <widget class="QRadioButton" name="vfoRadioButton">
+               <widget class="QLabel" name="label_22">
                 <property name="text">
-                 <string>VFO</string>
-                </property>
-                <property name="checked">
-                 <bool>true</bool>
+                 <string>VFO A Cmd</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QRadioButton" name="memChannelRadioButton">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
+               <widget class="QLineEdit" name="vfoAQueryLineEdit"/>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_20">
                 <property name="text">
-                 <string>Memory Channels (someday)</string>
+                 <string>Response Prefix A</string>
                 </property>
-                <property name="checked">
-                 <bool>false</bool>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="vfoAFreqResponseLineEdit"/>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="groupBox_29">
+             <property name="title">
+              <string>VFO B Freq (returns Hz value of VFO B as &quot;vfob nnnnnnnnnn&quot;, optional)</string>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_23">
+              <property name="leftMargin">
+               <number>3</number>
+              </property>
+              <property name="topMargin">
+               <number>3</number>
+              </property>
+              <property name="rightMargin">
+               <number>3</number>
+              </property>
+              <property name="bottomMargin">
+               <number>3</number>
+              </property>
+              <item>
+               <widget class="QLabel" name="label_23">
+                <property name="text">
+                 <string>VFO B Cmd</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="vfoBQueryLineEdit"/>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_21">
+                <property name="text">
+                 <string>Response Prefix B</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="vfoBFreqResponseLineEdit"/>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="groupBox_26">
+             <property name="title">
+              <string>Current VFO (returns &quot;vfoa&quot; or &quot;vfob&quot;)</string>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_26">
+              <property name="leftMargin">
+               <number>3</number>
+              </property>
+              <property name="topMargin">
+               <number>3</number>
+              </property>
+              <property name="rightMargin">
+               <number>3</number>
+              </property>
+              <property name="bottomMargin">
+               <number>3</number>
+              </property>
+              <item>
+               <widget class="QLabel" name="label_15">
+                <property name="text">
+                 <string>VFO QueryCmd</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="vfoActiveQueryLineEdit"/>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_14">
+                <property name="text">
+                 <string>VFO A Response</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="vfoAQueryResponseLineEdit">
+                <property name="placeholderText">
+                 <string>Expected response for VFO A.</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_16">
+                <property name="text">
+                 <string>VFO B Response</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="vfoBQueryResponseLineEdit">
+                <property name="placeholderText">
+                 <string>Expected response</string>
                 </property>
                </widget>
               </item>
              </layout>
             </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="groupBox_27">
+             <property name="title">
+              <string>Mode (returns Std. Mode designation or User mode name as &quot;mode &lt;name&gt;&quot;)</string>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_27">
+              <property name="leftMargin">
+               <number>3</number>
+              </property>
+              <property name="topMargin">
+               <number>3</number>
+              </property>
+              <property name="rightMargin">
+               <number>3</number>
+              </property>
+              <property name="bottomMargin">
+               <number>3</number>
+              </property>
+              <item>
+               <widget class="QLabel" name="label_25">
+                <property name="text">
+                 <string>Mode Query Cmd</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="currModeQueryLineEdit"/>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_24">
+                <property name="text">
+                 <string>Mode Response Prefix</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="currModeResponseLineEdit"/>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="pttQueryGroupBox">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="title">
+              <string>PTT (Returns &quot;ptt on&quot; or &quot;ptt off&quot;)</string>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_25">
+              <property name="leftMargin">
+               <number>3</number>
+              </property>
+              <property name="topMargin">
+               <number>3</number>
+              </property>
+              <property name="rightMargin">
+               <number>3</number>
+              </property>
+              <property name="bottomMargin">
+               <number>3</number>
+              </property>
+              <item>
+               <widget class="QLineEdit" name="pttStateQueryLineEdit"/>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="groupBox_30">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="title">
+              <string>VFO Split State (returns &quot;split on&quot; or &quot;split off&quot;)</string>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_24">
+              <property name="leftMargin">
+               <number>3</number>
+              </property>
+              <property name="topMargin">
+               <number>3</number>
+              </property>
+              <property name="rightMargin">
+               <number>3</number>
+              </property>
+              <property name="bottomMargin">
+               <number>3</number>
+              </property>
+              <item>
+               <widget class="QLineEdit" name="splitStateQueryLineEdit"/>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <spacer name="verticalSpacer_3">
+             <property name="orientation">
+              <enum>Qt::Orientation::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
            </item>
           </layout>
          </widget>
