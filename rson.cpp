@@ -92,7 +92,7 @@ void RSON::on_action_Save_to_JSON_triggered() {
     // jo.insert("controlType", QJsonValue(tmp));
     QString tmp = ui->pttMethodTCPRadioButton->isChecked()?"TCP":"SERIAL";
     jo.insert("connectionMethod", QJsonValue(tmp));
-    jo.insert("radioAddress", QJsonValue(ui->radioAddressComboBox->currentText().trimmed().toUpper()));
+    jo.insert("radioAddress", QJsonValue(ui->radioAddressComboBox->currentText().trimmed()));
     jo.insert("tcpPortNumber", QJsonValue(ui->tcpPortSpinBox->value()));
     jo.insert("portTimeout", QJsonValue(ui->portTimeoutSpinBox->value()));
     jo.insert("commandTimeout", QJsonValue(ui->commandTimeoutSpinBox->value()));
