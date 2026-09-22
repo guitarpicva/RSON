@@ -93,13 +93,14 @@ void RSON::on_action_Save_to_JSON_triggered() {
     QString tmp = ui->pttMethodTCPRadioButton->isChecked()?"TCP":"SERIAL";
     jo.insert("connectionMethod", QJsonValue(tmp));
     jo.insert("radioAddress", QJsonValue(ui->radioAddressComboBox->currentText().trimmed()));
-    jo.insert("tcpPortNumber", QJsonValue(ui->tcpPortSpinBox->value()));
+    jo.insert("radioTcpPortNumber", QJsonValue(ui->tcpPortSpinBox->value()));
     jo.insert("portTimeout", QJsonValue(ui->portTimeoutSpinBox->value()));
     jo.insert("commandTimeout", QJsonValue(ui->commandTimeoutSpinBox->value()));
     jo.insert("initialSetup", QJsonValue(ui->setupLineEdit->text().trimmed().toUpper()));
     jo.insert("pttOn", QJsonValue(ui->pttOnLineEdit->text().trimmed().toUpper()));
     jo.insert("pttOff", QJsonValue(ui->pttOffLineEdit->text().trimmed().toUpper()));
     jo.insert("pttData", QJsonValue(ui->pttDataLineEdit->text().trimmed().toUpper()));
+    jo.insert("toggleSplit", QJsonValue(ui->toggleSplitLineEdit->text().trimmed().toUpper()));
     jo.insert("autoTune", QJsonValue(ui->autoTuneLineEdit->text().trimmed().toUpper()));
     jo.insert("txTail", QJsonValue(ui->txTailSpinBox->value()));
     // the serial details
@@ -123,6 +124,8 @@ void RSON::on_action_Save_to_JSON_triggered() {
     // END USER MODES LIST
     // frequency control values
     QJsonObject jofreq;
+    jofreq.insert("toVFOA", ui->goToVFOALineEdit->text().trimmed());
+    jofreq.insert("toVFOB", ui->goToVFOBLineEdit->text().trimmed());
     tmp = ui->freqDigitTypeCIVRadioButton->isChecked() ? "CI-V" : ui->freqDigitTypeCATRadioButton->isChecked() ? "CAT" : "BCD";
     qDebug()<<"freq order:"<<tmp;
     jofreq.insert("order", QJsonValue(tmp));
@@ -201,7 +204,7 @@ void RSON::loadDataFromFile(const QString fn) {
         ui->serialBaudComboBox->setCurrentText(QString::number(itmp));
         ui->serialParamsComboBox->setCurrentText(jo.value("serialParams").toString());
         ui->serialFlowControlComboBox->setCurrentText(jo.value("serialFlowControl").toString());
-        ui->tcpPortSpinBox->setValue(jo.value("tcpPortNumber").toInt());
+        ui->tcpPortSpinBox->setValue(jo.value("radioTcpPortNumber").toInt());
         ui->portTimeoutSpinBox->setValue(jo.value("portTimeout").toInt());
         ui->commandTimeoutSpinBox->setValue(jo.value("commandTimeout").toInt());
         // setup tab
@@ -310,7 +313,7 @@ void RSON::on_action_Report_Format_triggered()
         out.append("Baud Rate: " % QString::number(jo.value("serialBaudRate").toInt()) % CRLF);
         out.append("Serial Params: " % jo.value("serialParams").toString() % CRLF);
         out.append("Flow Control: " % jo.value("serialFlowControl").toString() % CRLF);
-        int tmp = jo.value("tcpPortNumber").toInt();
+        int tmp = jo.value("radioTcpPortNumber").toInt();
         out.append("TCP Port Number: " % (tmp>0?QString::number(tmp):"N/A") % CRLF);
         out.append("Port Timeout: " % jo.value("portTimeout").toString() % CRLF);
         out.append("Command Timeout: " % jo.value("commandTimeout").toString() % CRLF);

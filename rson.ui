@@ -678,6 +678,18 @@ QLineEdit{font-family:courier new,monospace}</string>
             </widget>
            </item>
            <item>
+            <widget class="QGroupBox" name="groupBox_2">
+             <property name="title">
+              <string>Toggle Split (optional, based on radio -- some may not allow toggle)</string>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_2">
+              <item>
+               <widget class="QLineEdit" name="toggleSplitLineEdit"/>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
             <spacer name="verticalSpacer_2">
              <property name="orientation">
               <enum>Qt::Orientation::Vertical</enum>
@@ -722,44 +734,31 @@ QLineEdit{font-family:courier new,monospace}</string>
            <item row="1" column="1">
             <widget class="QGroupBox" name="groupBox_20">
              <property name="title">
-              <string>VFO Command Structure (Consult radio documentation to find the commands)</string>
+              <string>VFO Frequency Command Structure (Consult radio documentation to find the commands)</string>
              </property>
-             <layout class="QFormLayout" name="formLayout">
+             <layout class="QGridLayout" name="gridLayout_5">
+              <item row="5" column="0">
+               <widget class="QLabel" name="label_10">
+                <property name="text">
+                 <string>Command Suffix</string>
+                </property>
+               </widget>
+              </item>
               <item row="0" column="0">
-               <widget class="QLabel" name="label">
+               <widget class="QLabel" name="label_3">
                 <property name="text">
-                 <string>Command Prefix VFO A</string>
+                 <string>Go to VFO A</string>
                 </property>
                </widget>
-              </item>
-              <item row="0" column="1">
-               <widget class="QLineEdit" name="freqPrefixALineEdit">
-                <property name="maxLength">
-                 <number>16</number>
-                </property>
-                <property name="placeholderText">
-                 <string>i.e. for ICOM IC-705 FEFEA4E005 or for FT-450D FA, etc.</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="label_13">
-                <property name="text">
-                 <string>Command Prefix VFO B</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="1">
-               <widget class="QLineEdit" name="freqPrefixBLineEdit"/>
               </item>
               <item row="2" column="0">
-               <widget class="QLabel" name="label_5">
+               <widget class="QLabel" name="label">
                 <property name="text">
-                 <string>Number of FrequencyDigits</string>
+                 <string>Set Freq Prefix VFO A</string>
                 </property>
                </widget>
               </item>
-              <item row="2" column="1">
+              <item row="4" column="1">
                <widget class="QSpinBox" name="freqDigitsSpinBox">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -781,14 +780,34 @@ QLineEdit{font-family:courier new,monospace}</string>
                 </property>
                </widget>
               </item>
-              <item row="3" column="0">
-               <widget class="QLabel" name="label_10">
-                <property name="text">
-                 <string>Command Suffix</string>
+              <item row="2" column="1">
+               <widget class="QLineEdit" name="freqPrefixALineEdit">
+                <property name="maxLength">
+                 <number>16</number>
+                </property>
+                <property name="placeholderText">
+                 <string>i.e. for ICOM IC-705 FEFEA4E005 or for FT-450D FA, etc.</string>
                 </property>
                </widget>
               </item>
-              <item row="3" column="1">
+              <item row="6" column="0">
+               <widget class="QLabel" name="label_11">
+                <property name="text">
+                 <string>Order of Digits</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QLineEdit" name="goToVFOALineEdit"/>
+              </item>
+              <item row="4" column="0">
+               <widget class="QLabel" name="label_5">
+                <property name="text">
+                 <string>Number of FrequencyDigits</string>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="1">
                <widget class="QLineEdit" name="freqSuffixLineEdit">
                 <property name="text">
                  <string/>
@@ -798,14 +817,38 @@ QLineEdit{font-family:courier new,monospace}</string>
                 </property>
                </widget>
               </item>
-              <item row="4" column="0">
-               <widget class="QLabel" name="label_11">
+              <item row="0" column="2">
+               <widget class="QLabel" name="label_26">
                 <property name="text">
-                 <string>Order of Digits</string>
+                 <string>Go to VFO B</string>
                 </property>
                </widget>
               </item>
-              <item row="4" column="1">
+              <item row="0" column="3">
+               <widget class="QLineEdit" name="goToVFOBLineEdit"/>
+              </item>
+              <item row="7" column="0" colspan="4">
+               <widget class="QPlainTextEdit" name="freqHelpTextEdit">
+                <property name="readOnly">
+                 <bool>true</bool>
+                </property>
+                <property name="plainText">
+                 <string>Go to VFO A command, then Go to VFO B command.
+
+VFO command prefix - For all radios, fill in VFO A.  CAT style radios usually have a separate command for setting VFO B, otherwise, leave it blank.
+
+Number of Frequency Digits - How many digits are required to be in the command.  Frequency is supplied in Hz, so front padding will be applied to ensure the command has this many &quot;digits&quot; of frequency information.  If no padding is required, set to zero (0).
+
+Command Suffix - The end of the command, such as &quot;FD&quot; in CI-V for ICOM, or &quot;;&quot; for CAT.  For OLD BCD type Yaesu's it will likely be &quot;01&quot; which is the command for setting the current VFO.
+
+Order of Digits - 
+&quot;NORMAL&quot; means for CAT, which is front zero padded in order of Hz.  
+&quot;CI-V&quot; builds the ridiculous ICOM frequency format
+&quot;BCD&quot; (old Yaesu) will designate normally sequenced digits, but sent in binary instead of text.</string>
+                </property>
+               </widget>
+              </item>
+              <item row="6" column="1" colspan="3">
                <widget class="QGroupBox" name="groupBox_22">
                 <property name="toolTip">
                  <string/>
@@ -863,24 +906,15 @@ QLineEdit{font-family:courier new,monospace}</string>
                 </layout>
                </widget>
               </item>
-              <item row="5" column="0" colspan="2">
-               <widget class="QPlainTextEdit" name="freqHelpTextEdit">
-                <property name="readOnly">
-                 <bool>true</bool>
-                </property>
-                <property name="plainText">
-                 <string>VFO command prefix - For all radios, fill in VFO A.  CAT style radios usually have a separate command for setting VFO B, otherwise, leave it blank.
-
-Number of Frequency Digits - How many digits are required to be in the command.  Frequency is supplied in Hz, so front padding will be applied to ensure the command has this many &quot;digits&quot; of frequency information.  If no padding is required, set to zero (0).
-
-Command Suffix - The end of the command, such as &quot;FD&quot; in CI-V for ICOM, or &quot;;&quot; for CAT.  For OLD BCD type Yaesu's it will likely be &quot;01&quot; which is the command for setting the current VFO.
-
-Order of Digits - 
-&quot;NORMAL&quot; means for CAT, which is front zero padded in order of Hz.  
-&quot;CI-V&quot; builds the ridiculous ICOM frequency format
-&quot;BCD&quot; (old Yaesu) will designate normally sequenced digits, but sent in binary instead of text.</string>
+              <item row="2" column="2">
+               <widget class="QLabel" name="label_13">
+                <property name="text">
+                 <string>Set Freq Prefix VFO B</string>
                 </property>
                </widget>
+              </item>
+              <item row="2" column="3">
+               <widget class="QLineEdit" name="freqPrefixBLineEdit"/>
               </item>
              </layout>
             </widget>
