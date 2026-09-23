@@ -122,10 +122,11 @@ void RSON::on_action_Save_to_JSON_triggered() {
     jo.insert("modeList", jomodes);
     // TODO: now the user modes tab modes
     // END USER MODES LIST
+    jo.insert("toVFOA", ui->goToVFOALineEdit->text().trimmed());
+    jo.insert("toVFOB", ui->goToVFOBLineEdit->text().trimmed());
     // frequency control values
     QJsonObject jofreq;
-    jofreq.insert("toVFOA", ui->goToVFOALineEdit->text().trimmed());
-    jofreq.insert("toVFOB", ui->goToVFOBLineEdit->text().trimmed());
+
     tmp = ui->freqDigitTypeCIVRadioButton->isChecked() ? "CI-V" : ui->freqDigitTypeCATRadioButton->isChecked() ? "CAT" : "BCD";
     qDebug()<<"freq order:"<<tmp;
     jofreq.insert("order", QJsonValue(tmp));
@@ -261,6 +262,8 @@ void RSON::loadDataFromFile(const QString fn) {
         else {
             ui->freqDigitTypeBCDRadioButton->setChecked(true);
         }
+        ui->goToVFOALineEdit->setText(jo.value("toVFOA").toString());
+        ui->goToVFOBLineEdit->setText(jo.value("toVFOB").toString());
         // load the query command list
         jtmp = jo.value("queryCommands").toObject();
         if(!jtmp.isEmpty()) {

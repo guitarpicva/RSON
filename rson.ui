@@ -155,7 +155,7 @@ QLineEdit{font-family:courier new,monospace}</string>
               <item row="0" column="0" colspan="4">
                <widget class="QLabel" name="label_19">
                 <property name="text">
-                 <string>Port Timeout is how long (ms) to wait before processing received data on the port.  Command Timeout is how much time (ms) between sending a list of commands to the device.</string>
+                 <string>Port Timeout is how long (ms) to wait before processing received data on the port.  Command Timeout is how much time (ms) between sending each command in a list of commands to the device.</string>
                 </property>
                 <property name="wordWrap">
                  <bool>true</bool>
