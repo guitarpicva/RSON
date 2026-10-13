@@ -94,8 +94,7 @@ void RSON::on_action_Save_to_JSON_triggered() {
     jo.insert("connectionMethod", QJsonValue(tmp));
     jo.insert("radioAddress", QJsonValue(ui->radioAddressComboBox->currentText().trimmed()));
     jo.insert("radioTcpPortNumber", QJsonValue(ui->tcpPortSpinBox->value()));
-    jo.insert("portTimeout", QJsonValue(ui->portTimeoutSpinBox->value()));
-    jo.insert("commandTimeout", QJsonValue(ui->commandTimeoutSpinBox->value()));
+    jo.insert("interCmdDelay", QJsonValue(ui->commandTimeoutSpinBox->value()));
     jo.insert("initialSetup", QJsonValue(ui->setupLineEdit->text().trimmed().toUpper()));
     jo.insert("pttOn", QJsonValue(ui->pttOnLineEdit->text().trimmed().toUpper()));
     jo.insert("pttOff", QJsonValue(ui->pttOffLineEdit->text().trimmed().toUpper()));
@@ -143,9 +142,9 @@ void RSON::on_action_Save_to_JSON_triggered() {
     if(tmp.isEmpty()) { tmp = ui->freqPrefixALineEdit->text().trimmed().toUpper(); }
     jofreq.insert("prefixB", QJsonValue(tmp));
     jofreq.insert("numDigits", QJsonValue(ui->freqDigitsSpinBox->value()).toInt(8));
-    tmp = ui->freqDigitTypeCATRadioButton->isChecked()?"CAT":ui->freqDigitTypeCIVRadioButton->isChecked()?"CI-V":"BCD";
-    qDebug()<<"save to JSON order:"<<tmp;
-    jofreq.insert("order", QJsonValue(tmp));
+    // tmp = ui->freqDigitTypeCATRadioButton->isChecked()?"CAT":ui->freqDigitTypeCIVRadioButton->isChecked()?"CI-V":"BCD";
+    // qDebug()<<"save to JSON order:"<<tmp;
+    // jofreq.insert("order", QJsonValue(tmp));
     jofreq.insert("suffix", ui->freqSuffixLineEdit->text().trimmed().toUpper());
     jo.insert("frequencyControl", jofreq);
     // build and add query command list
@@ -206,8 +205,7 @@ void RSON::loadDataFromFile(const QString fn) {
         ui->serialParamsComboBox->setCurrentText(jo.value("serialParams").toString());
         ui->serialFlowControlComboBox->setCurrentText(jo.value("serialFlowControl").toString());
         ui->tcpPortSpinBox->setValue(jo.value("radioTcpPortNumber").toInt());
-        ui->portTimeoutSpinBox->setValue(jo.value("portTimeout").toInt());
-        ui->commandTimeoutSpinBox->setValue(jo.value("commandTimeout").toInt());
+        ui->commandTimeoutSpinBox->setValue(jo.value("interCmdDelay").toInt());
         // setup tab
         QString stmp = jo.value("initialSetup").toString().trimmed();
         ui->setupLineEdit->setText(stmp);
