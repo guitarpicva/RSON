@@ -4,6 +4,7 @@
 #include <QDir>
 #include <QFile>
 #include <QFileDialog>
+#include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonValue>
@@ -73,7 +74,7 @@ void RSON::on_refreshSerialButton_clicked()
 {
     // qDebug()<<"refresh the list based on connection type";
     ui->radioAddressComboBox->clear();
-    if(ui->pttMethodCATRadioButton->isChecked()) {
+    if(ui->connMethodSerialRadioButton->isChecked()) {
         QStringList addrList;
         QList<QSerialPortInfo> addrs = QSerialPortInfo::availablePorts();
         foreach (const QSerialPortInfo spi, addrs) {
@@ -88,9 +89,7 @@ void RSON::on_action_Save_to_JSON_triggered() {
     QJsonDocument jd;
     QJsonObject jo;
     jo.insert("radioName", QJsonValue(ui->radioNameLineEdit->text().trimmed()));
-    // QString tmp = ui->controlTypeCIVRadioButton->isChecked()?"BINARY":"ASCII";
-    // jo.insert("controlType", QJsonValue(tmp));
-    QString tmp = ui->pttMethodTCPRadioButton->isChecked()?"TCP":"SERIAL";
+    QString tmp = ui->connMethodTCPRadioButton->isChecked()?"TCP":"SERIAL";
     jo.insert("connectionMethod", QJsonValue(tmp));
     jo.insert("radioAddress", QJsonValue(ui->radioAddressComboBox->currentText().trimmed()));
     jo.insert("radioTcpPortNumber", QJsonValue(ui->tcpPortSpinBox->value()));
@@ -160,11 +159,28 @@ void RSON::on_action_Save_to_JSON_triggered() {
     joquery.insert("modeResponsePrefix", QJsonValue(ui->currModeResponseLineEdit->text().trimmed().toUpper()));
     // add query commands to the root object
     jo.insert("queryCommands", joquery);
+
+    // USER COMMANDS
+    // Now process all of the commands showing in the user commands
+    // QListWidget into an array of JSON objects
+    QJsonArray jauser; // array of user command objects
+    const int itemcount = ui->userCommandsListWidget->count();
+    // qDebug()<<"items:"<<itemcount;
+    for(int i = 0; i < itemcount; ++i) {
+        //qDebug()<<"items fromJSON:"<<ui->userCommandsListWidget->item(i);
+        QJsonDocument cmd = QJsonDocument::fromJson(ui->userCommandsListWidget->item(i)->text().toUtf8());
+        jauser.append(cmd.object());
+        //qDebug()<<"item "<<i<<cmd.object();
+    }
+    jo.insert("userCommands", jauser);
+    //qDebug().noquote()<<"user:"<<jo<<"jauser:"<<jauser;
+    // END USER COMMANDS
+
     // add the root object to the document
     jd.setObject(jo);
     // convert to JSON text
     QByteArray json = jd.toJson();
-    qDebug()<<"JSON OUT:"<<json;
+    qDebug().noquote()<<"JSON OUT:"<<json;
     QString fname = QFileDialog::getSaveFileName(this, "Save RSON File", "./RadioFiles", "*.json");
     if(fname.isEmpty()) { return; }
     QSaveFile out = QSaveFile(fname);
@@ -189,6 +205,8 @@ void RSON::loadDataFromFile(const QString fn) {
         in.close();
     }
     loadedFilename = fn;
+    // delete the items in the user commands list widget
+    ui->userCommandsListWidget->clear();
     statusBar()->showMessage("File Loaded: " % fn.split("/").last());
     QJsonDocument jd = QJsonDocument::fromJson(json);
     if(jd.isObject()) {
@@ -197,7 +215,7 @@ void RSON::loadDataFromFile(const QString fn) {
         // radio tab
         ui->radioNameLineEdit->setText(jo.value("radioName").toString());
 //        ui->controlTypeCIVRadioButton->setChecked(jo.value("controlType").toString() == "BINARY");
-        ui->pttMethodCATRadioButton->setChecked(jo.value("pttMethod").toString() == "CAT");
+        ui->connMethodSerialRadioButton->setChecked(jo.value("pttMethod").toString() == "CAT");
         ui->autoTuneLineEdit->setText(jo.value("autoTune").toString());
         ui->radioAddressComboBox->setCurrentText(jo.value("radioAddress").toString());
         int itmp = jo.value("serialBaudRate").toInt();
@@ -283,6 +301,16 @@ void RSON::loadDataFromFile(const QString fn) {
             // ui->pttStateQueryLineEdit->setText(jtmp.value("ptt").toString());
             // ui->splitStateQueryLineEdit->setText(jtmp.value("split").toString());
         }
+        QJsonArray ja = jo.value("userCommands").toArray();
+        qDebug()<<"load user cmds - ja:"<<ja;
+        if(!ja.isEmpty()) {
+            for(int i = 0; i < ja.count(); ++i) {
+                // each entry in the JSON array is a JSON object with name and command list
+                jtmp = ja.at(i).toObject();
+                const QString k = jtmp.keys().first();
+                ui->userCommandsListWidget->addItem("{\"" % k % "\":\"" % jtmp.value(k).toString() % "\"}");
+            }
+        }
     }
 }
 
@@ -306,7 +334,7 @@ void RSON::on_action_Report_Format_triggered()
     if(jd.isObject()) {
         QJsonObject jo = jd.object();
         out.append("--- RSON Report for " % jo.value("radioName").toString() % " ---" % CRLF);
-        out.append("Control Type: " % jo.value("controlType").toString() % CRLF);
+        // out.append("Control Type: " % jo.value("controlType").toString() % CRLF);
         out.append("PTT Method: " % jo.value("pttMethod").toString() % CRLF);
         out.append("AutoTune:" % jo.value("autoTune").toString() % CRLF);
         out.append("Radio Address: " % jo.value("radioAddress").toString() % CRLF);
@@ -366,6 +394,45 @@ void RSON::on_controlTypeCIVRadioButton_toggled(bool checked)
 {
     if(checked) {
         ui->freqDigitTypeCIVRadioButton->setChecked(true);
+    }
+}
+
+void RSON::on_connMethodSerialRadioButton_clicked()
+{
+    ui->refreshSerialButton->setEnabled(true);
+}
+
+void RSON::on_connMethodTCPRadioButton_clicked()
+{
+    ui->refreshSerialButton->setEnabled(false);
+}
+
+void RSON::on_userCommandsAddButton_clicked()
+{
+    if(ui->userCommandNameLineEdit->text().trimmed().isEmpty()) { return; }
+    if(ui->userCommandListLineEdit->text().trimmed().isEmpty()) { return; }
+    QString jsonObject = "{\"";
+    jsonObject.append(ui->userCommandNameLineEdit->text().trimmed());
+    jsonObject.append("\": \"");
+    jsonObject.append(ui->userCommandListLineEdit->text().trimmed());
+    jsonObject.append("\"}");
+    ui->userCommandsListWidget->addItem(jsonObject);
+}
+
+void RSON::on_userCommandsClearButton_clicked()
+{
+    ui->userCommandListLineEdit->clear();
+    ui->userCommandNameLineEdit->clear();
+    ui->userCommandNameLineEdit->setFocus();
+}
+
+void RSON::on_deleteUserCommandButton_clicked()
+{
+    QList<QListWidgetItem *> sel = ui->userCommandsListWidget->selectedItems();
+    foreach(QListWidgetItem *i, sel) {
+        qDebug().noquote()<<"selected item:"<<i->text();
+        const int row = ui->userCommandsListWidget->row(i);
+        i->listWidget()->takeItem(row);
     }
 }
 

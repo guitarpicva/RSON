@@ -22,7 +22,7 @@ QLineEdit{font-family:courier new,monospace}</string>
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>5</number>
       </property>
       <widget class="QWidget" name="radioTab">
        <attribute name="title">
@@ -63,7 +63,7 @@ QLineEdit{font-family:courier new,monospace}</string>
            <item row="2" column="2">
             <widget class="QLabel" name="label_6">
              <property name="text">
-              <string>The address of the control connection.  Serial port name (i.e. COM4) or IPv4 address or hostname.</string>
+              <string>The address of the control connection.  Serial port name (i.e. COM4 or ttyACM0) or IPv4 address or hostname.</string>
              </property>
              <property name="wordWrap">
               <bool>true</bool>
@@ -381,7 +381,7 @@ QLineEdit{font-family:courier new,monospace}</string>
                <number>3</number>
               </property>
               <item>
-               <widget class="QRadioButton" name="pttMethodCATRadioButton">
+               <widget class="QRadioButton" name="connMethodSerialRadioButton">
                 <property name="text">
                  <string>SERIAL PORT</string>
                 </property>
@@ -394,7 +394,7 @@ QLineEdit{font-family:courier new,monospace}</string>
                </widget>
               </item>
               <item>
-               <widget class="QRadioButton" name="pttMethodTCPRadioButton">
+               <widget class="QRadioButton" name="connMethodTCPRadioButton">
                 <property name="text">
                  <string>TCP Socket</string>
                 </property>
@@ -809,14 +809,14 @@ QLineEdit{font-family:courier new,monospace}</string>
                 <property name="plainText">
                  <string>Go to VFO A command, then Go to VFO B command.
 
-VFO command prefix - For all radios, fill in VFO A.  CAT style radios usually have a separate command for setting VFO B, otherwise, leave it blank.
+VFO set frequency prefix - For all radios, fill in VFO A.  CAT style radios usually have a separate command for setting VFO B, otherwise, leave it blank.
 
-Number of Frequency Digits - How many digits are required to be in the command.  Frequency is supplied in Hz, so front padding will be applied to ensure the command has this many &quot;digits&quot; of frequency information.  If no padding is required, set to zero (0).
+Number of Frequency Digits - How many digits are required to be in the command.  Frequency is supplied in Hz, so front padding will be applied to ensure the command has this many &quot;digits&quot; of frequency information. If no padding required, e.g. CODAN, set to &quot;0&quot;.
 
 Command Suffix - The end of the command, such as &quot;FD&quot; in CI-V for ICOM, or &quot;;&quot; for CAT.  For OLD BCD type Yaesu's it will likely be &quot;01&quot; which is the command for setting the current VFO.
 
-Order of Digits - 
-&quot;NORMAL&quot; means for CAT, which is front zero padded in order of Hz.  
+Order of Digits -
+&quot;CAT&quot;  which is front zero padded in natural order of Hz.
 &quot;CI-V&quot; builds the ridiculous ICOM frequency format
 &quot;BCD&quot; (old Yaesu) will designate normally sequenced digits, but sent in binary instead of text.</string>
                 </property>
@@ -950,7 +950,7 @@ Order of Digits -
         <item>
          <widget class="QGroupBox" name="groupBox_9">
           <property name="title">
-           <string>Mode Commands (csv list to change mode with possible filter selection)</string>
+           <string>Mode Commands (Comma separated list of commands to change mode)</string>
           </property>
           <layout class="QGridLayout" name="gridLayout_3">
            <item row="0" column="0">
@@ -1150,7 +1150,7 @@ Order of Digits -
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tab">
+      <widget class="QWidget" name="queryTab">
        <attribute name="title">
         <string>Query Commands</string>
        </attribute>
@@ -1212,7 +1212,11 @@ Order of Digits -
                </widget>
               </item>
               <item>
-               <widget class="QLineEdit" name="vfoAFreqResponseLineEdit"/>
+               <widget class="QLineEdit" name="vfoAFreqResponseLineEdit">
+                <property name="toolTip">
+                 <string>This is the set of bytes ahead of the actual frequency digits.  In almost all CI-V cases, only the active VFO frequency may be queried, so VFO A and VFO B should be treated the same.</string>
+                </property>
+               </widget>
               </item>
              </layout>
             </widget>
@@ -1253,7 +1257,11 @@ Order of Digits -
                </widget>
               </item>
               <item>
-               <widget class="QLineEdit" name="vfoBFreqResponseLineEdit"/>
+               <widget class="QLineEdit" name="vfoBFreqResponseLineEdit">
+                <property name="toolTip">
+                 <string>This is the set of bytes ahead of the actual frequency digits.  In almost all CI-V cases, only the active VFO frequency may be queried, so VFO A and VFO B should be treated the same.</string>
+                </property>
+               </widget>
               </item>
              </layout>
             </widget>
@@ -1284,7 +1292,11 @@ Order of Digits -
                </widget>
               </item>
               <item>
-               <widget class="QLineEdit" name="vfoActiveQueryLineEdit"/>
+               <widget class="QLineEdit" name="vfoActiveQueryLineEdit">
+                <property name="toolTip">
+                 <string>In almost all CI-V cases, it is not possible to query which vfo is active.  If that is the case, leave this field blank.</string>
+                </property>
+               </widget>
               </item>
               <item>
                <widget class="QLabel" name="label_14">
@@ -1295,6 +1307,9 @@ Order of Digits -
               </item>
               <item>
                <widget class="QLineEdit" name="vfoAQueryResponseLineEdit">
+                <property name="toolTip">
+                 <string>In almost all CI-V cases, it is not possible to query which vfo is active.  If that is the case, leave this field blank.</string>
+                </property>
                 <property name="placeholderText">
                  <string>Expected response for VFO A.</string>
                 </property>
@@ -1309,6 +1324,9 @@ Order of Digits -
               </item>
               <item>
                <widget class="QLineEdit" name="vfoBQueryResponseLineEdit">
+                <property name="toolTip">
+                 <string>In almost all CI-V cases, it is not possible to query which vfo is active.  If that is the case, leave this field blank.</string>
+                </property>
                 <property name="placeholderText">
                  <string>Expected response</string>
                 </property>
@@ -1424,6 +1442,93 @@ Order of Digits -
               </size>
              </property>
             </spacer>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="UserTab">
+       <attribute name="title">
+        <string>User Commands</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_10">
+        <item>
+         <widget class="QGroupBox" name="groupBox_28">
+          <property name="title">
+           <string>User Commands</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_6">
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_27">
+             <property name="text">
+              <string>Command List</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QLineEdit" name="userCommandListLineEdit"/>
+           </item>
+           <item row="3" column="1">
+            <widget class="QPushButton" name="userCommandsAddButton">
+             <property name="text">
+              <string>Add Command</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_17">
+             <property name="text">
+              <string>Unique Command Name</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0" colspan="2">
+            <widget class="QLabel" name="label_29">
+             <property name="text">
+              <string>Add New Commands to the User Commands List</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QPushButton" name="userCommandsClearButton">
+             <property name="text">
+              <string>Clear</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLineEdit" name="userCommandNameLineEdit"/>
+           </item>
+           <item row="0" column="2">
+            <widget class="QLabel" name="label_28">
+             <property name="text">
+              <string>Existing User Commands</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="0">
+            <spacer name="verticalSpacer_5">
+             <property name="orientation">
+              <enum>Qt::Orientation::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="1" column="2" rowspan="4">
+            <widget class="QListWidget" name="userCommandsListWidget"/>
+           </item>
+           <item row="5" column="2">
+            <widget class="QPushButton" name="deleteUserCommandButton">
+             <property name="text">
+              <string>Delete Selected Command</string>
+             </property>
+            </widget>
            </item>
           </layout>
          </widget>

@@ -27,8 +27,15 @@ private slots:
     void on_action_Report_Format_triggered();
     void on_action_About_RSON_triggered();
     void on_actionE_xit_triggered();
-
     void on_controlTypeCIVRadioButton_toggled(bool checked);
+    void on_connMethodSerialRadioButton_clicked();
+    void on_connMethodTCPRadioButton_clicked();
+
+    void on_userCommandsAddButton_clicked();
+
+    void on_userCommandsClearButton_clicked();
+
+    void on_deleteUserCommandButton_clicked();
 
 private:
     Ui::RSON *ui;
